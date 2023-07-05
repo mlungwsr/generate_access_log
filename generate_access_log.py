@@ -1,3 +1,4 @@
+import os
 import random
 import datetime
 import uuid
@@ -39,11 +40,17 @@ def generate_access_log():
     
     return log_entry
 
+log_directory = '/var/log/httpd/'
+
+# Ensure the log directory exists
+if not os.path.exists(log_directory):
+    os.makedirs(log_directory)
+
 # Run the script indefinitely
 try:
     while True:
         log_entry = generate_access_log()
-        with open('/var/log/httpd/access.log', 'a') as log_file:
+        with open(os.path.join(log_directory, 'access.log'), 'a') as log_file:
             log_file.write(log_entry)
 except KeyboardInterrupt:
     print("Script stopped by user.")
